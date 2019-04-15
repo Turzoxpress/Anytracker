@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Anytracker</string>
+
+    <string name="share_info">Share this code with your friends &amp; family members so that they can track you.</string>
+
+    <string name="user_info_add">User info added successfully.</string>
+
+    <string name="map_api_key">AIzaSyDh7F7cRgMOptnpmsHxU8RAWRsEYHDLb38</string>
+
+
+</resources>
