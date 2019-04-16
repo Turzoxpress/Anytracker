@@ -22,6 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.lonetiger.onetracker.Other.Constants;
 import com.lonetiger.onetracker.Other.Services.ForegroundService;
 import com.lonetiger.onetracker.Other.Services.LocationService;
@@ -30,6 +37,9 @@ import com.lonetiger.onetracker.Presenter.IPresenterStartService;
 import com.lonetiger.onetracker.Presenter.PresenterRegisterUser;
 import com.lonetiger.onetracker.Presenter.PresenterStartService;
 import com.lonetiger.onetracker.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -364,58 +374,92 @@ public class MainActivity extends AppCompatActivity implements IViewRegisterUser
         }
     }
 
-    public void askingForNumbers() {
 
-        // get prompts.xml view
-        LayoutInflater li = LayoutInflater.from(MainActivity.this);
-        View promptsView = li.inflate(R.layout.number_input, null);
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                MainActivity.this);
-
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
-
-        final EditText input_number = (EditText) promptsView
-                .findViewById(R.id.number_input);
-
-
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("Submit",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-
-
-                                //String nameTemp = "";
-                                numTemp = input_number.getText().toString();
-
-                                if(nameTemp.equals("")){
-
-                                    Toast.makeText(MainActivity.this,"You must enter a phone number",Toast.LENGTH_LONG).show();
-                                    askingForNumbers();
-
-                                }else {
-
-
-
-                                    sendSMS(nameTemp);
-
-
-                                }
-                            }
-                        })
-        ;
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-    }
 
 
     //---------------
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Really Exit?")
+                .setMessage("Are you sure you want to exit?")
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                       // WelcomeActivity.super.onBackPressed();
+                        iPresenterStartService.stopLocationServiceByPresenter(MainActivity.this);
+                        deleteUser();
+
+
+                    }
+                }).create().show();
+    }
+
+    private void deleteUser(){
+
+        SharedPreferences settings = getSharedPreferences("ID_DB", 0);
+        int user_num = settings.getInt("id", 0); //0 is the default value
+
+        //--
+        JSONObject parameters = new JSONObject();
+        try {
+            parameters.put("code", user_num);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG,parameters.toString());
+
+        RequestQueue rq = Volley.newRequestQueue(MainActivity.this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, Constants.server_path+Constants.deleteURL, parameters, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String respo=response.toString();
+                        Log.d(TAG,respo);
+                        //iosDialog.cancel();
+                        //Parse_signup_data(respo);
+                        if(respo.contains("Data deleted successfully")){
+
+
+                            Log.d(TAG,"User deleted successfully!");
+                            finish();
+
+                        }else {
+
+                            finish();
+
+                        }
+
+
+
+
+
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        //iosDialog.cancel();
+                        //Toast.makeText(Login_A.this, "Something wrong with Api", Toast.LENGTH_SHORT).show();
+                        //rgs.onHandleCodeFromModel(404);
+                        finish();
+                        Log.d(TAG,error.toString());
+                    }
+                });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        rq.getCache().clear();
+        rq.add(jsonObjectRequest);
+    }
 }

@@ -14,11 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.gson.Gson;
 import com.lonetiger.onetracker.Other.Constants;
 
@@ -29,7 +25,7 @@ import org.json.JSONObject;
 public class ModelGetData implements IModelGetData {
 
     Constants constants;
-    DatabaseReference databaseReference;
+    //DatabaseReference databaseReference;
     private static String TAG = "ModelGetData";
 
 

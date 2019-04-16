@@ -14,13 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.google.gson.Gson;
 import com.lonetiger.onetracker.Other.Constants;
 import com.lonetiger.onetracker.Presenter.IPresenterRegisterUser;
@@ -43,7 +37,7 @@ public class ModelRegisterUser implements IModelRegisterUser {
 
 
     //Communication with Firebase database
-    DatabaseReference databaseReference;
+    //DatabaseReference databaseReference;
     RegisterInteractor rgs;
     private Gson gson;;
 
