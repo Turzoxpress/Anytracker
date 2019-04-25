@@ -57,6 +57,8 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
     private boolean startHandler = false;
     private boolean startAddingMarker = false;
 
+    public boolean keepRunningHandler = false;
+
 
 
 
@@ -84,12 +86,14 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMapInstance) {
 
         googleMap = googleMapInstance;
+        googleMap.setMaxZoomPreference(14f);
 
     }
 
     @Override
     public void onGetDataFromPresenter(GetValue gt) {
 
+        keepRunningHandler = true;
         Log.d(TAG,gt.getUser_name()+"-------------"+gt.getUser_lat()+"-------------"+gt.getUser_long());
         if(!startHandler){
 
@@ -114,10 +118,20 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onWrongCode(int code) {
 
+        startHandler = false;
+        startAddingMarker = false;
+        keepRunningHandler = false;
+        googleMap.clear();
+
+       // handler.removeCallbacks(runner);
+
+
+
         if(code == 2){
 
-            askingForCode();
-            Toast.makeText(TrackOther.this,"You entered wrong code! Please enter the right code.",Toast.LENGTH_LONG).show();
+            showCodeDeleted();
+
+            //Toast.makeText(TrackOther.this,"You entered wrong code! Please enter the right code.",Toast.LENGTH_LONG).show();
 
         }else{
 
@@ -143,7 +157,7 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
         View promptsView = li.inflate(R.layout.custom_edittext, null);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                TrackOther.this);
+                TrackOther.this,R.style.Theme_AppCompat_Light);
 
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
@@ -179,6 +193,14 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
                                 }
                             }
                         })
+                .setNegativeButton("Exit",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                                finish();
+                            }
+                        }
+                );
         ;
 
         // create alert dialog
@@ -202,11 +224,15 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
 
                 //--------
 
-                iPresenterGetData.startDataFetchingRequest(input_code,TrackOther.this);
+                if(keepRunningHandler){
+
+                    iPresenterGetData.startDataFetchingRequest(input_code,TrackOther.this);
 
 
-                //-- recursing the handler
-                handler.postDelayed(this, 5000);
+                    //-- recursing the handler
+                    handler.postDelayed(this, 5000);
+                }
+
             }
 
 
@@ -258,6 +284,30 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(ltln));
         //googleMap.animateCamera( CameraUpdateFactory.zoomTo( 13.0f ) );
+    }
+
+    private void showCodeDeleted(){
+
+        String s = "App can't track the user based on your code!\n\n" +
+                "Reason :\n\n" +
+                "1. May be you entered the wrong code, please check the code again.\n\n" +
+                "2. Or the person you are tracking stopped tracking him/her. This means the person manually disabled tracking him/her.\n\n" +
+                "Contact with the person again for new code.\n\n";
+        AlertDialog alertDialog = new AlertDialog.Builder(TrackOther.this,R.style.Theme_AppCompat_Light_Dialog).create();
+        alertDialog.setTitle("Error!");
+        alertDialog.setMessage(s);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        askingForCode();
+                        dialog.dismiss();
+
+
+                    }
+                });
+        alertDialog.show();
     }
 
 
