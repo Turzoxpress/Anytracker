@@ -2,11 +2,11 @@ package com.lonetiger.onetracker.Other;
 
 public class Constants {
 
-    public static String server_path = "https://newgen-bd.com/turzo/track_backend/index.php?p=";
-    public static String getDataURL = "getdata";
-    public static String registrationURL = "register";
-    public static String updateURL = "update";
-    public static String deleteURL = "delete";
+    public static String server_path = "http://anytrackerbd.com/tracker_backend/index.php?p=";
+    public static String getDataURL = "getdata_user";
+    public static String registrationURL = "signup_user";
+    public static String updateURL = "update_user";
+    public static String deleteURL = "delete_user";
 
     public static String New_User_Path = "users";
 
