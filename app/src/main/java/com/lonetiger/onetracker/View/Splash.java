@@ -19,35 +19,35 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class Splash extends AppCompatActivity {
 
 
-    private static final int PERMISSION_REQUEST_CODE = 200;
-    private static int TIME_OUT = 4000; //Time to launch the another activity
+        private static final int PERMISSION_REQUEST_CODE = 200;
+        private static int TIME_OUT = 4000; //Time to launch the another activity
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-
-        if(checkPermission() == true){
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_splash);
 
 
+            if(checkPermission() == true){
 
-            //-- after task
-            goToNext();
 
-        }else{
 
-            //-- Requesting the permission for location access in android devices with Marshmallow or later
-            requestPermission();
+                //-- after task
+                goToNext();
+
+            }else{
+
+                //-- Requesting the permission for location access in android devices with Marshmallow or later
+                requestPermission();
+
+            }
+
+
+
+
+
 
         }
-
-
-
-
-
-
-    }
 
     //-- Check permission if location is on or off on android devices with Marshmallow or later
     private boolean checkPermission() {
@@ -133,7 +133,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent openMain = new Intent(Splash.this,MainActivity.class);
+                Intent openMain = new Intent(Splash.this,Next.class);
                 startActivity(openMain);
                 finish();
 

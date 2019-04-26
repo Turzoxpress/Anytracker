@@ -81,11 +81,11 @@ public class ForegroundService extends Service {
       } else{
 
         Notification notification = new NotificationCompat.Builder(this)
-                .setContentTitle("Your position is updating")
-                .setTicker("Your position is updating")
-                .setContentText("Interval : 1 minute")
+                .setContentTitle("Your position is syncing with server")
+                .setTicker("Your position is syncing with server")
+                .setContentText("")//.setContentText("Interval : 1 minute")
                 .setSmallIcon(R.drawable.ic_location)
-                .setContentIntent(pendingIntent)
+                //.setContentIntent(pendingIntent)
                 .setOngoing(true)
                 //.addAction(android.R.drawable.ic_media_previous,
                 //   "Previous", ppreviousIntent)

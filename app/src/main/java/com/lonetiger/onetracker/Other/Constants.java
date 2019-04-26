@@ -1,5 +1,7 @@
 package com.lonetiger.onetracker.Other;
 
+import com.lonetiger.onetracker.Presenter.PresenterUpdateUser;
+
 public class Constants {
 
     public static String server_path = "http://anytrackerbd.com/tracker_backend/index.php?p=";
@@ -7,6 +9,7 @@ public class Constants {
     public static String registrationURL = "signup_user";
     public static String updateURL = "update_user";
     public static String deleteURL = "delete_user";
+    public static String privacyURL = "http://anytrackerbd.com/other/anytracker/privacy.html";
 
     public static String New_User_Path = "users";
 

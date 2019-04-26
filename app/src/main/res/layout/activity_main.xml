@@ -33,7 +33,7 @@
                     android:fontFamily="@font/ninja_turtle"
                     android:text="AnyTracker"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="#FF5722"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>

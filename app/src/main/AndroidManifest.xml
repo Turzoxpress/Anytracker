@@ -29,6 +29,11 @@
         </activity>
 
         <activity
+            android:name=".View.Next"
+            android:screenOrientation="portrait"
+            android:theme="@style/noactionbar_whiteStatus" />
+
+        <activity
             android:name=".View.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/noactionbar_whiteStatus" />

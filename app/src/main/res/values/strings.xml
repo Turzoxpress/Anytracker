@@ -7,5 +7,9 @@
 
     <string name="map_api_key">AIzaSyA7hyEYdhwTyzGjzOu4LuhNYfC4ZYY8oL8</string>
 
+    <string name="application_id">ca-app-pub-4658910366293213~8374140938</string>
+
+    <string name="ad_id">ca-app-pub-4658910366293213/9108228983</string>
+
 
 </resources>

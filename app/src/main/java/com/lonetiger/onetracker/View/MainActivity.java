@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements IViewRegisterUser
     private Switch tracking_switch;
 
     private Button share_social_media,sms_code;
+    private Button how_it_works,rate;
 
 
 
@@ -81,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements IViewRegisterUser
         welcome_title = (TextView)findViewById(R.id.welcome_text);
         share_social_media = (Button)findViewById(R.id.share_social_media);
         sms_code = (Button)findViewById(R.id.share_sms);
+        how_it_works = (Button)findViewById(R.id.how_it_works);
+        rate = (Button)findViewById(R.id.rate_app);
 
         iPresenterRegisterUser = new PresenterRegisterUser(this);
 
@@ -182,6 +185,28 @@ public class MainActivity extends AppCompatActivity implements IViewRegisterUser
         });
 
         //----
+
+        //--
+
+        how_it_works.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showHowItWorks();
+
+            }
+        });
+
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id="+getPackageName())));
+            }
+        });
+
+
+        //--------------
 
     }
 
@@ -461,5 +486,40 @@ public class MainActivity extends AppCompatActivity implements IViewRegisterUser
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         rq.getCache().clear();
         rq.add(jsonObjectRequest);
+    }
+
+    private void showHowItWorks(){
+
+        String s = "1. When you open the app, it's start to synchronize your position with server & give you a unique ID.\n\n" +
+                "2. You can share that ID with your friends & family members by social media or sms to track you.\n\n" +
+                "3. They can (Friends & Family members) track you until you stop the self tracking option(by turning off 'Keep Tracking Me' switch) or Exit the app.\n\n" +
+                "4. If you want to track others, ask them for ID, then press the 'Track Others' button, enter the ID & start tracking them.\n\n" +
+                "Please read our Privacy Policy for details\n";
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this,R.style.Theme_AppCompat_Light_Dialog).create();
+        alertDialog.setTitle("How it works?");
+        alertDialog.setMessage(s);
+        alertDialog.setCancelable(false);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        dialog.dismiss();
+
+
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "PRIVACY POLICY",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.privacyURL));
+                        startActivity(browserIntent);
+                        dialog.dismiss();
+
+
+                    }
+                });
+        alertDialog.show();
     }
 }

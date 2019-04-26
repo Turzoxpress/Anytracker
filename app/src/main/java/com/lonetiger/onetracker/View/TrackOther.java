@@ -86,7 +86,7 @@ public class TrackOther extends AppCompatActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMapInstance) {
 
         googleMap = googleMapInstance;
-        googleMap.setMaxZoomPreference(14f);
+        googleMap.setMaxZoomPreference(17f);
 
     }
 
